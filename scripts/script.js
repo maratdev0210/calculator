@@ -1,8 +1,8 @@
 // constructs a new object that evaluates the result of the expression between two given values
 function Calculator(firstValue, secondValue, operator) {
-    this.firstValue = firstValue;
-    this.secondValue = secondValue;
-    this.operator = operator;
+    this.firstValue = Number(firstValue.textContent);
+    this.secondValue = Number(secondValue.textContent);
+    this.operator = operator.textContent;
     this.evaluate = function() {
         switch (this.operator) {
             case '-':
@@ -15,15 +15,11 @@ function Calculator(firstValue, secondValue, operator) {
                 return this.firstValue / this.secondValue;
         }
     }
+    this.output = function() {
+        result.textContent = this.evaluate();
+    }
 }
 
-function output(firstValue, secondValue, operator) {
-    firstValue = Number(firstValue.textContent);
-    secondValue = Number(secondValue.textContent);
-    operator = operator.textContent;
-    let calculate = new Calculator(firstValue, secondValue, operator);
-    result.textContent = calculate.evaluate();
-}
 
 let firstValue = document.querySelector('.expression .first-value');
 let secondValue = document.querySelector('.expression .second-value');
@@ -149,16 +145,16 @@ divide.addEventListener('click', () => {
     }
 });
 
-
-
 equals.addEventListener('click', () => {
-    output(firstValue, secondValue, operator);
+    let calculate = new Calculator(firstValue, secondValue, operator);
+    calculate.output();
 });
 
-del.addEventListener('click', () => {
+function deleteNumbers() {
     if (secondValue.textContent.length > 0) {
         secondValue.textContent = secondValue.textContent.slice(0, -1);
-        output(firstValue, secondValue, operator);
+        let calculate = new Calculator(firstValue, secondValue, operator);
+        calculate.output();
     } else if (operator.textContent.length == 1) {
         operator.textContent = operator.textContent.slice(0, -1);
         result.textContent = '';
@@ -166,11 +162,17 @@ del.addEventListener('click', () => {
         firstValue.textContent = firstValue.textContent.slice(0, -1);
         result.textContent = '';
     }
-});
+}
+
+del.addEventListener('click', deleteNumbers); 
 
 window.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-        output(firstValue, secondValue, operator);
+    if (event.key === 'Backspace') {
+        deleteNumbers();
+    }
+    else if (event.key === 'Enter') {
+        let calculate = new Calculator(firstValue, secondValue, operator);
+        calculate.output();
     }
     else if (event.key === '+' || event.key === '-' || event.key === '/' || event.key === '*') {
         operator.textContent = event.key;
