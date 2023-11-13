@@ -82,3 +82,44 @@
 .operators .fourth-row {
     background-color: #E9C46A;
 }
+
+.output {
+    display: flex;
+    flex-direction: column;
+}
+
+.output > * {
+    flex: 1;
+    border: inherit;
+    display: flex;
+}
+
+.output .result {
+    justify-content: right;
+}
+
+.output .result span {
+    border: inherit;
+    display: flex;
+    justify-content: center;
+    padding-top: 60px;
+    width: 100%;
+    font-size: 36px;
+}
+
+.output .expression {
+    display: flex;
+    justify-content: space-around;
+}
+
+.output .first-value, .output .second-value {
+    flex: 3;
+    border: inherit;
+    font-size: 36px;
+}
+
+.output .operator {
+    flex: 1;
+    border: inherit;
+    font-size: 36px;
+}
