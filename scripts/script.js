@@ -17,6 +17,13 @@ function Calculator(firstValue, secondValue, operator) {
     }
 }
 
+function output(firstValue, secondValue, operator) {
+    firstValue = Number(firstValue.textContent);
+    secondValue = Number(secondValue.textContent);
+    operator = operator.textContent;
+    let calculate = new Calculator(firstValue, secondValue, operator);
+    result.textContent = calculate.evaluate();
+}
 
 let firstValue = document.querySelector('.expression .first-value');
 let secondValue = document.querySelector('.expression .second-value');
@@ -37,7 +44,7 @@ let subtract = document.querySelector('.subtract');
 let multiply = document.querySelector('.multiply');
 let divide = document.querySelector('.divide');
 let equals = document.querySelector('.equal');
-
+let del = document.querySelector('.delete');
 
 clearButton.addEventListener('click', () => {
     firstValue.textContent = "";
@@ -119,25 +126,58 @@ nine.addEventListener('click', () => {
 });
 
 add.addEventListener('click', () => {
-    operator.textContent = "+";
+    if (firstValue.textContent.length > 0) {
+        operator.textContent = "+";
+    }
 });
 
 subtract.addEventListener('click', () => {
-    operator.textContent = "-";
+    if (firstValue.textContent.length > 0) {
+        operator.textContent = '-';
+    }
 });
 
 multiply.addEventListener('click', () => {
-    operator.textContent = "*";
+    if (firstValue.textContent.length > 0) {
+        operator.textContent = '*';
+    }
 });
 
 divide.addEventListener('click', () => {
-    operator.textContent = '/';
+    if (firstValue.textContent.length > 0) {
+        operator.textContent = '/';
+    }
 });
 
 
+
 equals.addEventListener('click', () => {
-    let firstNumber = Number(firstValue.textContent);
-    let secondNumber = Number(secondValue.textContent);
-    let calculate = new Calculator(firstNumber, secondNumber, operator.textContent);
-    result.textContent = calculate.evaluate();
+    output(firstValue, secondValue, operator);
+});
+
+del.addEventListener('click', () => {
+    if (secondValue.textContent.length > 0) {
+        secondValue.textContent = secondValue.textContent.slice(0, -1);
+        output(firstValue, secondValue, operator);
+    } else if (operator.textContent.length == 1) {
+        operator.textContent = operator.textContent.slice(0, -1);
+        result.textContent = '';
+    } else {
+        firstValue.textContent = firstValue.textContent.slice(0, -1);
+        result.textContent = '';
+    }
+});
+
+window.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        output(firstValue, secondValue, operator);
+    }
+    else if (event.key === '+' || event.key === '-' || event.key === '/' || event.key === '*') {
+        operator.textContent = event.key;
+    }
+    else if (operator.textContent.length == 0) {
+        firstValue.textContent += String(event.key);
+    } else {
+        secondValue.textContent += String(event.key);
+    }
 });
